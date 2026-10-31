@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0 # Necessary for tagging
 
@@ -74,17 +74,17 @@ jobs:
           
           # Fallback for dev: check VITE_APP_VERSION in dev kustomization
           if [ -z "$DEV_TAG" ] || [ "$DEV_TAG" = "null" ]; then
-            DEV_TAG=$(grep -A 1 "VITE_APP_VERSION" Infrastructure/kubernetes/apps/dev/kustomization.yaml | grep "value:" | sed 's/.*value: //' | tr -d ' "')
+            DEV_TAG=$(grep -A 1 "VITE_APP_VERSION" kubernetes/apps/dev/kustomization.yaml | grep "value:" | sed 's/.*value: //' | tr -d ' "')
           fi
           
           # Fallback for dev: check yq newTag
           if [ -z "$DEV_TAG" ] || [ "$DEV_TAG" = "null" ]; then
-            DEV_TAG=$(yq '.images[] | select(.name == "villejuhan1/quiz-backend") | .newTag' Infrastructure/kubernetes/apps/dev/kustomization.yaml)
+            DEV_TAG=$(yq '.images[] | select(.name == "villejuhan1/quiz-backend") | .newTag' kubernetes/apps/dev/kustomization.yaml)
           fi
 
           # Fallback for prod: check yq newTag
           if [ -z "$PROD_TAG" ] || [ "$PROD_TAG" = "null" ]; then
-            PROD_TAG=$(yq '.images[] | select(.name == "villejuhan1/quiz-backend") | .newTag' Infrastructure/kubernetes/apps/prod/kustomization.yaml)
+            PROD_TAG=$(yq '.images[] | select(.name == "villejuhan1/quiz-backend") | .newTag' kubernetes/apps/prod/kustomization.yaml)
           fi
           
           # If the value resolved to a digest (e.g. from yq fallback), shorten it

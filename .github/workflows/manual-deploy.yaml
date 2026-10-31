@@ -55,7 +55,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '26'
           cache: 'npm'
@@ -93,6 +93,8 @@ jobs:
           TARGET_ENV: ${{ github.event.inputs.target_env }}
           IMAGE_TAG: ${{ steps.generate-tag.outputs.tag }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          VITE_GITHUB_URL: ${{ vars.VITE_GITHUB_URL || secrets.VITE_GITHUB_URL || 'https://github.com/VilleJuhan1' }}
+          VITE_LINKEDIN_URL: ${{ vars.VITE_LINKEDIN_URL || secrets.VITE_LINKEDIN_URL || 'https://www.linkedin.com/in/ville-juhani-nivasalo/' }}
         run: |
           cd App/frontend
           npm ci
@@ -118,8 +120,8 @@ jobs:
           VITE_API_URL="$API_URL" \
           VITE_SHOW_DEV_BAR="$SHOW_DEV_BAR" \
           VITE_APP_ENV="$APP_ENV" \
-          VITE_LINKEDIN_URL="https://www.linkedin.com/in/ville-juhani-nivasalo/" \
-          VITE_GITHUB_URL="https://github.com/VilleJuhan1" \
+          VITE_LINKEDIN_URL="$VITE_LINKEDIN_URL" \
+          VITE_GITHUB_URL="$VITE_GITHUB_URL" \
           npm run build
 
           # Build and push production image for ARM64 (OCI Ampere) with full security attestations
@@ -142,7 +144,7 @@ jobs:
           BACKEND_DIGEST: ${{ steps.build-backend.outputs.digest }}
           FRONTEND_DIGEST: ${{ steps.build-frontend.outputs.digest }}
         run: |
-          cd Infrastructure/kubernetes/apps/$TARGET_ENV
+          cd kubernetes/apps/$TARGET_ENV
           kustomize edit set image villejuhan1/quiz-backend=$DOCKERHUB_USERNAME/quiz-backend@$BACKEND_DIGEST
           kustomize edit set image villejuhan1/quiz-frontend=$DOCKERHUB_USERNAME/quiz-frontend@$FRONTEND_DIGEST
           if [ "$TARGET_ENV" != "prod" ]; then
@@ -154,6 +156,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add Infrastructure/kubernetes/apps/${{ github.event.inputs.target_env }}/kustomization.yaml
+          git add kubernetes/apps/${{ github.event.inputs.target_env }}/kustomization.yaml
           git commit -m "Deploy ${{ github.event.inputs.target_env }}: ${{ steps.generate-tag.outputs.tag }}"
           git push origin HEAD:${{ github.ref }}

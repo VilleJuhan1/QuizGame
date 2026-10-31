@@ -5,7 +5,7 @@ on:
     paths:
       - 'App/backend/**'
       - '.github/workflows/backend-test.yaml'
-      - 'Infrastructure/docker/docker-compose-backend*.yml'
+      - 'docker/docker-compose-backend*.yml'
 
 # Runs linter and backend tests in Docker container. Should be used when making changes to backend or docker-compose files.
 # Tag triggering on commit messages with '#backend-test' mainly due to having all code in the same repo. Don't wanna run tests on every push or pull request.
@@ -20,10 +20,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '26'
 
@@ -40,14 +40,14 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Infrastructure/docker
+        working-directory: docker
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '26'
 

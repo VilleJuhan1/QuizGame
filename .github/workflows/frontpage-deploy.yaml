@@ -54,7 +54,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '26'
           cache: 'npm'
@@ -66,8 +66,8 @@ jobs:
           TARGET_ENV: ${{ github.event.inputs.target_env }}
           IMAGE_TAG: ${{ steps.generate-tag.outputs.tag }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          VITE_GITHUB_URL: ${{ secrets.VITE_GITHUB_URL }}
-          VITE_LINKEDIN_URL: ${{ secrets.VITE_LINKEDIN_URL }}
+          VITE_GITHUB_URL: ${{ vars.VITE_GITHUB_URL || secrets.VITE_GITHUB_URL || 'https://github.com/VilleJuhan1' }}
+          VITE_LINKEDIN_URL: ${{ vars.VITE_LINKEDIN_URL || secrets.VITE_LINKEDIN_URL || 'https://www.linkedin.com/in/ville-juhani-nivasalo/' }}
         run: |
           cd App/frontpage
           npm ci
@@ -108,13 +108,13 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           FRONTPAGE_DIGEST: ${{ steps.build-frontpage.outputs.digest }}
         run: |
-          cd Infrastructure/kubernetes/apps/$TARGET_ENV
+          cd kubernetes/apps/$TARGET_ENV
           kustomize edit set image villejuhan1/frontpage=$DOCKERHUB_USERNAME/frontpage@$FRONTPAGE_DIGEST
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add Infrastructure/kubernetes/apps/${{ github.event.inputs.target_env }}/kustomization.yaml
+          git add kubernetes/apps/${{ github.event.inputs.target_env }}/kustomization.yaml
           git commit -m "Deploy Frontpage ${{ github.event.inputs.target_env }}: ${{ steps.generate-tag.outputs.tag }}"
           git push origin HEAD:${{ github.ref }}
