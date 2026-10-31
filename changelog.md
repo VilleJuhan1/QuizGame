@@ -4,5 +4,5 @@ Initial development of this app was done in a separate repository [here](https:/
 
 | Version | Date | Title | Description | Quiz Image Dev Tag | Quiz Image Prod Tag |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1.0.0 | 2026-10-31 |  | Trying to fix the changelog workflow.  | shiny-tiger-8a80d10 | null |
+| 1.0.0 | 2026-10-31 | Initial release | Refactored my whole cloud environment and migrated Quiz app here  | shiny-tiger-8a80d10 | null |
 | 1.0.1 | 2026-10-31 | Vulnerability fixes | Reviewed the app dependencies and worked on fixing them.  | shiny-tiger-8a80d10 | null |
