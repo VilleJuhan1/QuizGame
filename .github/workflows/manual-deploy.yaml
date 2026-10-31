@@ -69,6 +69,7 @@ jobs:
           cd App/backend
           npm ci
           npm run lint
+          npm audit fix
           npm audit --audit-level=high
           
           TAGS="-t ${{ secrets.DOCKERHUB_USERNAME }}/quiz-backend:${{ steps.generate-tag.outputs.tag }}"
@@ -99,6 +100,7 @@ jobs:
           cd App/frontend
           npm ci
           npm run lint
+          npm audit fix
           npm audit --audit-level=high
 
           # Use production/dev secrets for API URL
