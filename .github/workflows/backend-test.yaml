@@ -1,0 +1,73 @@
+name: Backend tests
+
+on:
+  push:
+    paths:
+      - 'App/backend/**'
+      - '.github/workflows/backend-test.yaml'
+      - 'Infrastructure/docker/docker-compose-backend*.yml'
+
+# Runs linter and backend tests in Docker container. Should be used when making changes to backend or docker-compose files.
+# Tag triggering on commit messages with '#backend-test' mainly due to having all code in the same repo. Don't wanna run tests on every push or pull request.
+jobs:
+  linter:
+    # Only run this job if the commit messages contain '#backend-test'
+    if: contains(toJSON(github.event.commits.*.message), '#backend-test')
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: App/backend
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '26'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
+
+  build-and-test:
+    needs: linter
+    # Only run this job if the commit messages contain '#backend-test'
+    if: contains(toJSON(github.event.commits.*.message), '#backend-test')
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Infrastructure/docker
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '26'
+
+      - name: Build Docker image
+        run: docker compose -f docker-compose-backend-dev.yml build
+
+      - name: Run app in Docker container
+        run: docker compose -f docker-compose-backend-dev.yml up -d
+        
+      - name: Wait for service to start
+        run: sleep 10
+
+      - name: Delete package-lock.json
+        working-directory: App/backend
+        run: rm -f package-lock.json
+
+      - name: Install test dependencies
+        working-directory: App/backend
+        run: npm install
+
+      - name: Test queries
+        working-directory: App/backend
+        run: npm test

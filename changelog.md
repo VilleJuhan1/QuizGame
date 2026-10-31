@@ -1,0 +1,75 @@
+# Project Changelog
+
+| Version | Date | Title | Description | Quiz Image Dev Tag | Quiz Image Prod Tag |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 1.0.0 | 2026-05-16 | Initial release | The first version of the app is online and available to users | brave-whale-43f0d5e | happy-wolf-77d7f62 |
+| 1.0.1 | 2026-05-16 | Fix for dynamic changelog creation | Changed the logic on how the workflow pulls the latest images from Kustomize files.  | brave-whale-43f0d5e | happy-wolf-77d7f62 |
+| 1.0.2 | 2026-05-16 | Fixes to release workflow | Configured time to display properly or changelog.  | brave-whale-43f0d5e | happy-wolf-77d7f62 |
+| 1.1.0 | 2026-05-16 | Added a landing page for the sandbox environment | As the apps are deployed in their own subdomains, created a generic landing page to replace the unsafe nginx welcome page for main domain.  | brave-whale-43f0d5e | happy-wolf-77d7f62 |
+| 1.1.1 | 2026-05-16 | Fixed a lint error | Workflow got stuck on some lint errors... My bad! Now fixed.  | brave-whale-43f0d5e | happy-wolf-77d7f62 |
+| 1.1.2 | 2026-05-17 | Code review and documentation | Did a code review for the whole repository. Also changed the landing page layout slightly.  | brave-whale-43f0d5e | happy-wolf-77d7f62 |
+| 1.1.3 | 2026-05-18 | Testing categories for Quiz game | Added a dropdown menu and logic for using the object categories provided by the backend data to have only questions related to that category (ie. Europe or 1996 Red/Blue Pokemon).  | obvious-wolf-f17f49a | happy-wolf-77d7f62 |
+| 1.1.4 | 2026-05-18 | Just some documentation | Courselog update  | obvious-wolf-f17f49a| happy-wolf-77d7f62 |
+| 1.1.5 | 2026-05-18 | Changelog workflow fixes | Fixed the changelog workflow that was applying latest to backend dev image in the changelog.md. Also added a small scaling test for frontend to better accommodate different screens.  | obvious-wolf-f17f49a | happy-wolf-77d7f62 |
+| 1.1.6 | 2026-05-19 | Mobile layout tweaks | Made the homepage and quizpage components snap into corners and scale to the mobile screen, maybe.  | clever-lion-39c7526 | happy-wolf-77d7f62 |
+| 1.1.7 | 2026-05-19 | Mobile layout fixes | Made some more tweaks to the mobile layout.  | clever-owl-233b3cb | happy-wolf-77d7f62 |
+| 1.1.8 | 2026-05-20 | Two ingress controllers | Added another ingress controller so there's one for each node. Also pinned PostgreSQL pod on worker node.  | clever-owl-233b3cb | happy-wolf-77d7f62 |
+| 1.1.9 | 2026-05-21 | Limits and requests | Added limits and requests for the app deployment: frontend, backend, postgres. Also horizontal autoscaling for production.  | clever-fox-00e92f3 | happy-wolf-77d7f62 |
+| 1.1.10 | 2026-05-21 | Fixed deprecated syntax on kustomize files | Restarted app with newest images, did some kustomize rewrites with more modern syntax.  | clever-fox-00e92f3 | gentle-fox-2bb928b |
+| 1.1.11 | 2026-05-22 | Kanban board for planning | Added a Kanban board for planning and keeping track of tasks. It uses the Markdown Kanban extension by holoooo for a graphical representation.  | clever-fox-00e92f3 | gentle-fox-2bb928b |
+| 1.1.12 | 2026-05-23 | Streak score component |  | clever-fox-911dbb1 | gentle-fox-2bb928b |
+| 1.2.0 | 2026-05-23 | Streak score to production | Added the streak score component also on production build.  | clever-fox-911dbb1 | brave-whale-834a168 |
+| 1.2.1 | 2026-05-23 | Settings component placeholder | Settings component placeholder with no actual functionality to be tested on dev.  | clever-lion-62088d5 | brave-whale-834a168 |
+| 1.3.0 | 2026-05-25 | Settings button and login framework | Added a settings button to top right corner and placeholders for login and signup pages. Also refactored the index.css for frontend into individual components.  | mighty-wolf-3dfd69a | brave-whale-834a168 |
+| 1.3.1 | 2026-05-25 | Frontpage title move | Changed the positioning on domain root / landing page components.  | mighty-wolf-3dfd69a | brave-owl-173043c |
+| 1.4.0 | 2026-05-27 | Login and signup | Users can be created although there's no validation yet. One can also login with a test user on dev. Sessions persist.  | clever-owl-65e4b5a | brave-owl-173043c |
+| 1.4.1 | 2026-05-27 | Deployed to main | Deployed the latest features (login and signup) to main also.  | clever-owl-65e4b5a | mighty-whale-3160171 |
+| 1.4.2 | 2026-05-28 | Validations for login and signup | Added some extra checks for login and signup forms so that unsafe passwords are not allowed etc.  | mighty-dolphin-1421707 | mighty-whale-3160171 |
+| 1.4.3 | 2026-05-30 | Lint workflow | Added a lint workflow that checks all components on a pull request to main.  | mighty-dolphin-1421707 | mighty-whale-3160171 |
+| 1.5.0 | 2026-05-30 | Prometheus monitoring stack | Added an ansible step and the required manifest files to install and configure an externally accessible Grafana. Tried Bastion tunneling, but eventually decided on this.  | clever-wolf-3dc55a6 | mighty-whale-3160171 |
+| 1.5.1 | 2026-05-30 | Monitoring dashboard review | Added community monitoring dashboards to Grafana manually.  | clever-wolf-3dc55a6 | mighty-whale-3160171 |
+| 1.5.2 | 2026-05-30 | Grafana Loki | Grafana can now be used to review logs via Loki datasource.  | clever-wolf-3dc55a6 | mighty-whale-3160171 |
+| 1.5.3 | 2026-05-30 | Grafana loki fixes | Issues with data sources hopefully now fixed. Also added configmaps for Grafana dashboards so they persist.  | clever-wolf-3dc55a6 | mighty-whale-3160171 |
+| 1.5.4 | 2026-05-30 | No helm on configmaps | Reverted changes and using only kustomize for grafana dashboard configmaps.  | clever-wolf-3dc55a6 | mighty-whale-3160171 |
+| 1.5.5 | 2026-05-30 | Admin for 2fa user | Fixed a bug where 2fa user wasn't given admin privileges on Grafana.  | clever-wolf-3dc55a6 | mighty-whale-3160171 |
+| 1.6.0 | 2026-05-30 | Admin for OAuth users in Grafana | After thorough review and a million iterations, finally found the proper attribute to apply admin role to new users created via OAuth authentication.  | clever-wolf-3dc55a6 | mighty-whale-3160171 |
+| 1.7.0 | 2026-05-31 | Automated backups | Added a backup policy that takes backup every day, week and month with equal retaining length (2 for daily).  | clever-wolf-3dc55a6 | mighty-whale-3160171 |
+| 1.7.1 | 2026-06-01 | User streak score | If a user is logged in, the streak score data for main categories will be preserved and a special banner is shown when doing a new record (dev).  | swift-owl-2db417b | mighty-whale-3160171 |
+| 1.7.2 | 2026-06-01 | A bug fix | User streak score was reset whenever a new highest score was made  | swift-eagle-6eb25bd | mighty-whale-3160171 |
+| 1.8.0 | 2026-06-03 | User streak score | After review, deploy user streak score also to production  | swift-eagle-6eb25bd | happy-wolf-afc5688 |
+| 1.9.0 | 2026-06-03 | Frontend testing toolkit | Some initial tests for frontend testing  | swift-eagle-6eb25bd | happy-wolf-afc5688 |
+| 1.9.1 | 2026-06-04 | Planning | Just some planning and log reviews via nodes and Grafana  | swift-eagle-6eb25bd | happy-wolf-afc5688 |
+| 1.9.2 | 2026-06-07 | More tests | Added more frontend tests using vitest and vitest coverage. Removed DevBar from production builds.  | swift-eagle-6eb25bd | obvious-lion-9c88a72 |
+| 1.9.3 | 2026-06-07 | Token expiration | User tokens will now expire after 24 hours  | swift-eagle-6eb25bd | obvious-lion-9c88a72 |
+| 2.0.0 | 2026-06-07 | Persistent volume for Postgres | Production build will from now on use persistent volume for postgresql which means that all changes to backend need to be migrated to the db.  | swift-eagle-6eb25bd | obvious-lion-9c88a72 |
+| 2.0.1 | 2026-06-07 | Planning | Planned the required upcoming features: Argo CD, frontpage (landing page)   | swift-eagle-6eb25bd | obvious-lion-9c88a72 |
+| 2.0.2 | 2026-06-13 | Documentation | Reviewed all current readme files and brought them up to date  | swift-eagle-6eb25bd | obvious-lion-9c88a72 |
+| 2.1.0 | 2026-06-13 | ArgoCD | ArgoCD deployed with separate app deployments for dev and production stacks  | swift-eagle-6eb25bd | obvious-lion-9c88a72 |
+| 2.1.1 | 2026-06-13 | Admin privileges | Fixed a bug where the custom Argocd user didn't have enough privileges to monitor the deployments  | swift-eagle-6eb25bd | obvious-lion-9c88a72 |
+| 2.1.2 | 2026-06-14 | Compute downgrade | Due to recent changes to OCI free tier limits, had to downgrade k3s master and worker nodes to 1 ocpu and 6 GB ram each. Down from 2/12.  | swift-eagle-6eb25bd | obvious-lion-9c88a72 |
+| 2.2.0 | 2026-06-14 | Stripe | Added stripe-mock as a simulated payment provider for upgrading an user to premium status  | swift-whale-d6aecd8 | obvious-lion-9c88a72 |
+| 2.2.1 | 2026-06-14 | Bug fix | Fixed an argocd bug that prevented updating the deployment  | swift-whale-d6aecd8 | obvious-lion-9c88a72 |
+| 2.2.2 | 2026-06-14 | Mock to prod | Deploying mock payment feature to production build also  | swift-whale-d6aecd8 | happy-whale-6ca82c3 |
+| 2.2.3 | 2026-06-14 | Mock debugged | Fixed an issue with stripe mock where the payment failed due to a misformatted key  | swift-whale-d6aecd8 | happy-whale-6ca82c3 |
+| 2.3.0 | 2026-06-15 | Dota heroes category | Added a new category for quiz game: Dota heroes. Implemented schemas, resolvers, queries, migrations etc. for both front- and backend.  | swift-wolf-4313bd4 | happy-whale-6ca82c3 |
+| 2.3.1 | 2026-06-16 | Dota heroes production live | Deployed the new category to production build  | swift-wolf-4313bd4 | brave-dolphin-425f804 |
+| 2.4.0 | 2026-06-17 | Frontpage hub features | Added a links bar to project landing page, wrote documentation, played with some UI features but defaulted to existing ones  | swift-wolf-4313bd4 | brave-dolphin-425f804 |
+| 2.4.1 | 2026-06-17 | More backend tests | Dota heroes and stripe tests for backend. A fix (hopefully) for frontpage deployment.  | swift-wolf-4313bd4 | brave-dolphin-425f804 |
+| 2.4.2 | 2026-06-17 | Frontpage deployment fix | Fixing something which wasn't broken but actually caused by VR Wifi.  | swift-wolf-4313bd4 | brave-dolphin-425f804 |
+| 2.4.3 | 2026-06-17 | Future tasks | With at least 30 hours of course work still to be done, crafted some meaningful tasks to complete the project  | swift-wolf-4313bd4 | brave-dolphin-425f804 |
+| 2.4.4 | 2026-06-18 | Quiz bug fixes | Fixed several bugs on the quiz game and generated tests for them:<br>- Two same options in a row when another was previous correct answer retained the hover highlight effect.<br>- Previous streak score didn't retain the original value but was updated to newest streak.<br>- Personal highest streak for new users started at 1 instead of 2 which is the required minimum | obvious-eagle-029ce7b | brave-dolphin-425f804 |
+| 2.4.5 | 2026-06-18 | Deploy prod: happy-lion-66ce1a2 | Tested the bug fixes and seem to work so deploying them to production  | obvious-eagle-029ce7b | happy-lion-66ce1a2 |
+| 2.4.6 | 2026-06-18 | Bug fix for changelog | Added html tags for bullet list to prevent changelog table from breaking  | obvious-eagle-029ce7b | happy-lion-66ce1a2 |
+| 2.5.0 | 2026-07-03 | OCI Vault | Switched to handling Kubernetes secrets via ESO and OCI Vault  | obvious-eagle-029ce7b | happy-lion-66ce1a2 |
+| 2.5.1 | 2026-07-04 | Streak score bug fix | Deploy the streak score bug fix to production also.  | mighty-owl-4f45f69 | clever-owl-ca93f19 |
+| 2.6.0 | 2026-07-05 | Updated Dockerfiles | Updated the way images are built and switched to newer node version as base image and in workflows.  | swift-lion-72d6d34 | brave-wolf-565ccc3 |
+| 2.6.1 | 2026-07-05 | Logs and todo | Just a minor late addition that wasn't pushed timely and missed the merge  | swift-lion-72d6d34 | brave-wolf-565ccc3 |
+| 2.6.2 | 2026-07-06 | Devbar to frontpage | Implemented the devbar component to frontpage in dev environment  | swift-lion-72d6d34 | brave-wolf-565ccc3 |
+| 2.6.3 | 2026-07-06 | Deployment strategies reviewed | Reviewed the deployment strategy and related readme files to verify and clarify why different components are installed and configured using different tools (ansible, kubectl, argocd)  | swift-lion-72d6d34 | brave-wolf-565ccc3 |
+| 2.6.4 | 2026-07-07 | Doc blocks | Reviewed and updated App documentation: Doc blocks, comments, readme files  | swift-lion-72d6d34 | brave-wolf-565ccc3 |
+| 2.6.5 | 2026-07-08 | Backend test coverage | Added better test coverage for backend and also finished task 32 which included checking versions used in Actions and Dockerfiles and updating them if newer was available.  | swift-lion-72d6d34 | brave-wolf-565ccc3 |
+| 2.7.0 | 2026-07-08 | More secure build workflows | Switched to using sha256sums as kustomize identifiers instead of image tags. Added also an audit check and small privileges change to workflows. Respectively had to change the changelog workflow logic also.  | gentle-fox-0792a0e | happy-fox-0f53eff |
+| 2.8.0 | 2026-07-09 | Kana category for Quiz game | Added a fourth category: Kana (Japanese characters) to Quiz game  | swift-dolphin-7394a4e | happy-tiger-8c988e4 |
+| 2.8.1 | 2026-07-13 | Bug fixes | Fixed (hopefully) some annoying bugs:<br>- Quiz option focus (highlight) not resetting between rounds on iOS devices<br>- Pokemon API failing to provide images fast enough<br>- Focus not resetting if the correct answer is an option on the next round  | happy-tiger-5a99b15 | obvious-lion-0195c6b |
+| 2.8.2 | 2026-07-13 | Course submission review | Reviewed the root readme and some other files before doing the course submission  | happy-tiger-5a99b15 | obvious-lion-0195c6b |
+| 2.8.3 | 2026-07-20 | Bug fixes | Fixed a bug where deployment workflow no longer used proper socials links and some broken links in the main project readme file.  | shiny-tiger-8a80d10 | happy-eagle-3f14c32 |

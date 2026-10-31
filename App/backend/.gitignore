@@ -1,0 +1,8 @@
+# .gitignore file for the backend
+node_modules
+scripts/venv
+prettier*
+.env
+dist
+coverage
+__pycache__

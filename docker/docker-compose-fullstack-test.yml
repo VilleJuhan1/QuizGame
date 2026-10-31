@@ -1,0 +1,52 @@
+# Docker-compose file for the whole application stack
+
+services:
+  # connect to the postgres container while dev with `docker exec -it local_dev_db psql -U admin -d mydatabase`
+  postgres:
+    image: postgres:18-alpine
+    container_name: local_dev_db
+    restart: always
+    # only for dev and as an example, use proper secrets management in production
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=mydatabase
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d mydatabase"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  backend:
+    image: villejuhan1/quiz-backend:latest
+    depends_on:
+      postgres:
+        condition: service_healthy
+    container_name: graphql-api
+    restart: always
+    # only for dev and as an example, use proper secrets management in production
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=mydatabase
+      - POSTGRES_PORT=5432
+      - NODE_ENV=dev
+      - PASSWORD_SECRET=test-environment-super-secret-key
+      - JWT_SECRET=super-secure-test-jwt-secret
+    ports:
+      - '4000:4000'
+  frontend:
+    image: villejuhan1/quiz-frontend:latest
+    depends_on:
+      - backend
+    container_name: quiz-frontend
+    ports:
+      - '8080:80'
+  stripe-mock:
+    image: stripe/stripe-mock:latest
+    container_name: stripe-mock
+    restart: always
+    ports:
+      - '12111:12111'

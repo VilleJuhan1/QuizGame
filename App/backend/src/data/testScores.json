@@ -1,0 +1,27 @@
+[
+  {
+    "userId": 1,
+    "category": "countries",
+    "highestStreak": 20
+  },
+  {
+    "userId": 1,
+    "category": "pokemon",
+    "highestStreak": 15
+  },
+  {
+    "userId": 2,
+    "category": "countries",
+    "highestStreak": 2
+  },
+  {
+    "userId": 3,
+    "category": "pokemon",
+    "highestStreak": 50
+  },
+  {
+    "userId": 4,
+    "category": "countries",
+    "highestStreak": 0
+  }
+]

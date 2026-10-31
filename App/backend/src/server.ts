@@ -1,0 +1,83 @@
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
+import { resolvers } from './schema/resolvers';
+import { typeDefs } from './schema/typeDefs';
+import { loggingPlugin } from './plugins/loggingPlugin';
+import { logger } from './utils/logger';
+import { GraphQLError } from 'graphql';
+
+const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
+const isDev = process.env.NODE_ENV !== 'production';
+
+import jwt from 'jsonwebtoken';
+import { runMigrations, User } from './db';
+
+/**
+ * Initializes and starts the Apollo Server and the standalone server.
+ * Handles database migrations, server configuration, and JWT authentication context.
+ *
+ * @returns {Promise<{ server: ApolloServer, url: string }>} A promise that resolves to an object containing the server instance and the URL it is listening on.
+ * @throws {Error} If the server fails to start or database migrations fail.
+ */
+export async function startServer() {
+  try {
+    await runMigrations(); // Run the migrations first
+
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+      plugins: [loggingPlugin],
+
+      formatError: (formattedError, error) => {
+        const graphQLError = error as GraphQLError;
+
+        logger.error(
+          {
+            message: graphQLError.message,
+            path: graphQLError.path,
+            code: formattedError.extensions?.code,
+          },
+          'GraphQL Error while starting the server:'
+        );
+
+        return {
+          message: formattedError.message,
+          code: formattedError.extensions?.code || 'INTERNAL_SERVER_ERROR',
+        };
+      },
+
+      introspection: isDev,
+    });
+
+    const { url } = await startStandaloneServer(server, {
+      listen: { port: PORT },
+      context: async ({ req }) => {
+        const auth = req ? req.headers.authorization : null;
+        if (auth && auth.startsWith('Bearer ')) {
+          const token = auth.substring(7);
+          try {
+            const jwtSecret = process.env.JWT_SECRET;
+            if (!jwtSecret) {
+              throw new Error('JWT_SECRET is missing from environment');
+            }
+            const decodedToken = jwt.verify(token, jwtSecret) as {
+              id: number;
+              username: string;
+            };
+            const currentUser = await User.findByPk(decodedToken.id);
+            return { currentUser };
+          } catch (err) {
+            logger.warn({ error: err }, 'Invalid token provided');
+          }
+        }
+        return { currentUser: null };
+      },
+    });
+
+    logger.info({ url, port: PORT }, 'Server started');
+    return { server, url };
+  } catch (error) {
+    logger.fatal(error, 'Failed to start server');
+    process.exit(1);
+  }
+}

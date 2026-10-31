@@ -1,0 +1,4 @@
+kubeconfig*
+nginx-test.yaml
+*.env
+/base/secrets-local.yaml
