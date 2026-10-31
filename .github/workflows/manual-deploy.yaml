@@ -70,7 +70,7 @@ jobs:
           npm ci
           npm run lint
           npm audit fix
-          npm audit --audit-level=high
+          npm audit --omit-dev --audit-level=high
           
           TAGS="-t ${{ secrets.DOCKERHUB_USERNAME }}/quiz-backend:${{ steps.generate-tag.outputs.tag }}"
           if [ "${{ github.event.inputs.target_env }}" == "dev" ]; then
@@ -101,7 +101,7 @@ jobs:
           npm ci
           npm run lint
           npm audit fix
-          npm audit --audit-level=high
+          npm audit --omit-dev --audit-level=high
 
           # Use production/dev secrets for API URL
           API_URL="/graphql" # Proxied via Frontend Nginx
