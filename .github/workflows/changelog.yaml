@@ -19,6 +19,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v7
         with:
+          ref: main
           fetch-depth: 0 # Necessary for tagging
 
       # Determines the version increment based on the labels of the merge request, default to patch
