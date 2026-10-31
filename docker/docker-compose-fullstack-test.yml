@@ -19,6 +19,9 @@ services:
       timeout: 5s
       retries: 5
   backend:
+    build:
+      context: ../App/backend
+      dockerfile: Dockerfile
     image: villejuhan1/quiz-backend:latest
     depends_on:
       postgres:
@@ -38,6 +41,9 @@ services:
     ports:
       - '4000:4000'
   frontend:
+    build:
+      context: ../App/frontend
+      dockerfile: Dockerfile
     image: villejuhan1/quiz-frontend:latest
     depends_on:
       - backend
