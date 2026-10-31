@@ -32,3 +32,5 @@ blob-report/
 
 # Vitest
 coverage/
+
+.env
